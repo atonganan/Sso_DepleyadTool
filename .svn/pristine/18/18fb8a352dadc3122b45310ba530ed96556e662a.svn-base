@@ -1,0 +1,21 @@
+    server {
+        listen       80;
+        server_name  betassl2.healthmall.cn;
+        #charset koi8-r;
+        #access_log  logs/host.access.log  main;
+        #error_page  404              /404.html;
+        # redirect server error pages to the static page /50x.html
+        error_page   500 502 503 504  /50x.html;
+        access_log  /apps/logs/nginx/betassl2.access.log   log_access;
+	location / {
+                root html;
+                index index.html index.htm;
+                proxy_pass http://ssl_server/;
+                proxy_set_header Host $http_host;
+                proxy_set_header Cookie $http_cookie;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                client_max_body_size 300m;
+        }
+    }
